@@ -148,3 +148,54 @@ Respond to a DELETE request to the **/user** route:
     app.delete('/user', (req, res) => {
         res.send('Got a DELETE request at /user')
     })
+
+# Serving static files in Express
+
+To serve static files such as images, CSS files, and JavaScript files, use the **express.static** built-in middleware function in Express.</br>
+The function signature is:
+
+    express.static(root, [options])
+
+The **root** argument specifies the root directory from which to serve static assets. For mor information on the **options** argument, see [express.static](https://expressjs.com/en/4x/api.html#express.static).</br>
+
+For example, use the following code to serve images, CSS files, and JavaScript files in a directory named **public**:
+
+    app.use(express.static('public'))
+
+Now, you can load the files that are in the **public** directory:
+
+    http://localhost:3000/images/kitten.jpg
+    http://localhost:3000/css/style.css
+    http://localhost:3000/js/app.js
+    http://localhost:3000/images/bg.png
+    http://localhost:3000/hello.html
+
+> Express looks up the files relative to the static directory, so the name of the static directory is not part of the URL.
+
+To use multiple static assets directories, call the **express.static** middleware function multiple times:
+
+    app.use(express.static('public'))
+    app.use(express.static('files'))
+
+Express looks up the files in the order in which you set the static directories with the **express.static** middleware function.</br>
+
+> NOTE: For best results, [user a reverse proxy](https://expressjs.com/en/advanced/best-practice-performance.html#use-a-reverse-proxy) cache to improve performance of serving static assets.
+
+To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the **express.static** function, [specify a mount path](https://expressjs.com/en/4x/api.html#app.use) for the static directory, as shown below:
+
+    app.use('/static', express.static('public'))
+
+Now, you can load the files that are in the **public** directory from the **/static** path prefix.
+
+    http://localhost:3000/static/images/kitten.jpg
+    http://localhost:3000/static/css/style.css
+    http://localhost:3000/static/js/app.js
+    http://localhost:3000/static/images/bg.png
+    http://localhost:3000/static/hello.html
+
+However, the path that you provide to the **express.static** function is relative to the directory form where you launch your node process. If you run express app from another directory, it's safer to use the absolute path of the directory that you want to serve:
+
+    const path = require('path')
+    app.use('/static', express.static(path.join(__dirname, 'public')))
+
+For more details about the **serve-static** function and its options, see [serve-static](https://expressjs.com/resources/middleware/serve-static.html)
