@@ -46,3 +46,63 @@ Run the app with the following command:
     node app.js
 
 Then, load `http://localhost:3000/` in a browser to see the output.
+
+# Express application generator
+
+Use the application generator tool, `express-generator`, to quickly create an application skeleton.</br>
+You can run the application generator with the npx command.</br>
+
+    npx express-generator
+
+For earlier Node versions, install the application generator as a global npm package and then launch it:
+
+    npm install -g express-generator
+    express
+
+Display the command option with the -h option
+
+    express -h
+
+For example, the following creates an Express app named `myapp`. The app will be created in a folder `myapp` in the current working directory and the view engine will be set to [Pug](https://pugjs.org/):
+
+    express --view=pug myapp
+
+Then install dependencies:
+
+    cd myapp
+    npm install
+
+On MacOs or Linux, run the app with this command:
+
+    DEBUG=myapp:* npm start
+
+On Windows Command Prompt, use this command:
+
+    set DEBUG=:myapp:* & npm start
+
+On Windows PowerShell, use this command
+
+    $env:DEBUG='myapp:*'; npm start
+
+Then load `http://localhost:3000/` in your browser to access the app.</br>
+The generated app has the following directory structure:
+
+    .
+    ├── app.js
+    ├── bin
+    │   └── www
+    ├── package.json
+    ├── public
+    │   ├── images
+    │   ├── javascripts
+    │   └── stylesheets
+    │       └── style.css
+    ├── routes
+    │   ├── index.js
+    │   └── users.js
+    └── views
+        ├── error.pug
+        ├── index.pug
+        └── layout.pug
+
+    7 directories, 9 files
