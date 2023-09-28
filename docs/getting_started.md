@@ -22,3 +22,27 @@ Now install Express in the `myapp` directory and save it in the dependencies lis
 To install Express temporarily and not add it to the dependencies list:</br>
 
     npm install express --no-save
+
+# Hello world example
+
+    const express = require('express');
+    const app = express();
+    const port = 3000;
+
+    app.get('/', (req, res) => {
+      res.send('Hello world');
+    })
+
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}``)
+    })
+
+This app starts a server and listens on port 3000 for connections. the app responds with "Hello World" for requests to the root URL `(/)` or route. For every other path, it will respond with a **404 Not Found**.</br>
+
+## Running Locally
+
+Run the app with the following command:
+
+    node app.js
+
+Then, load `http://localhost:3000/` in a browser to see the output.
