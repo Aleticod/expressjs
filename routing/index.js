@@ -13,9 +13,9 @@ app.get('/random.txt', (req, res) => {
   res.send('random.txt')
 })
 
-app.get(/a/, (req, res) => {
-  res.send('/a/')
-})
+// app.get(/a/, (req, res) => {
+//   res.send('/a/')
+// })
 
 app.get('/users/:userId/books/:bookId', (req, res) => {
   res.send(req.params)
@@ -31,4 +31,38 @@ app.get('/user/:userId(\\d+)', (req, res) => {
 
 app.listen(3000, () => {
   console.log('random.txt')
+})
+
+// handlers
+
+app.get('/example/b', (req, res, next) => {
+  console.log('The response will be sent by the next function ...')
+  next()
+}, (req, res) => {
+  res.send('Hello from b')
+})
+
+// An array of callback
+
+const cb0 = function(req, res, next) {
+  console.log('CB0');
+  next()
+}
+
+const cb1 = function(req, res, next) {
+  console.log('CB1')
+  next()
+}
+
+const cb2 = function(req, res) {
+  res.send('Hello from c')
+}
+
+app.get('/example/c', [cb0, cb1, cb2])
+
+app.get('/example/d', [cb0, cb1], (req, res, next) => {
+  console.log('the response will be sent by the next function...')
+  next()
+}, (req, res) => {
+  res.send('Hello from D')
 })
