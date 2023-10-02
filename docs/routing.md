@@ -223,3 +223,60 @@ res.redirect()|Redirect a request|
 |res.send()|Send a response of various types.|
 |res.sendFile()|Send a file as an octet stream.|
 |res.sendStatus()|Send the response status code and send its string representation as the response body.|
+
+
+## app.route()
+
+You can create chainable route handlers for a route path by using **app.route()**. Because the path is specified at a single location, creating modular routes is helpful, as is reducing redundancy and typos. For more information about routes, see: [Router() documentation](https://expressjs.com/en/4x/api.html#router).</br>
+
+Here is an exmaple of chained route handlers that are defined by using **app.route()**.
+
+    app.route('/book')
+      .get((req, res) => {
+        res.send('Get a random book')
+      })
+      .post((req, res) => {
+        res.send('Add a book')
+      })
+      .put((req, res) => {
+        res.send('Update the book')
+      })
+
+## express.Router
+
+Use the **express.Router** class to create modular, mountable route handlers. A **Router** instances is a complete middleware and routing system; for this reason, it is often referred to as a "mini-app".</br>
+
+The following example creates a router as a module, loads a middleware function in it, defines some routes, and mounts the router module on a path in the main app.</br>
+
+Create a router file name **birds.js** in the app directory, with he following content:
+
+    const express = require('express')
+    const router = express.Router()
+
+    // middleware that is specific to this router
+    router.use((req, res, next) => {
+      console.log('Time: ', Date.now())
+      next()
+    })
+
+    // define the home page route
+    router.get('/', (req, res) => {
+      res.send('Birds home page')
+    })
+
+    // define the about route
+    router.get('/about', (req, res) => {
+      res.send('About birds')
+    })
+
+    module.exports = router
+
+Then, load the router module in the app:
+
+    const birds = require('./birds')
+
+    // ....
+
+    app.use('/birds', birds)
+
+The app will now be able to handle requests to **/bird** and **/bird/about**, as well as call the **timeLog** middleware function that is specific to the route.
