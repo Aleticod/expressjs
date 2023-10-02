@@ -79,3 +79,9 @@ app.route('/book')
   .put((req, res) => {
     res.send('Update the book')
   })
+
+// Import the router module
+
+const birds = require('./birds')
+
+app.use('/birds', birds)
